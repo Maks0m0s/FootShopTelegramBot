@@ -1,8 +1,9 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from commands import start
 from buttons import start_button, shop_button, prices_button
+from env import TOKEN
 
-app = ApplicationBuilder().token("8223990252:AAEZRpsYXWb2oaaCGOLcYVzxXbMHxVC2PhI").build()
+app = ApplicationBuilder().token(TOKEN).build()
 
 # Command handler
 app.add_handler(CommandHandler("start", start))
