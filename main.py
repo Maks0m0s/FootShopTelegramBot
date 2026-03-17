@@ -9,7 +9,7 @@ app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 
 # language selector
-app.add_handler(CallbackQueryHandler(language_button, pattern="^(lang_en|lang_ru)$"))
+app.add_handler(CallbackQueryHandler(language_button, pattern="^(lang_en|lang_ru|lang_es)$"))
 
 # main menu buttons
 app.add_handler(CallbackQueryHandler(menu_button, pattern="^(catalog|prices|how_to_buy|contacts|back_menu)$"))

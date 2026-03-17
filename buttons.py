@@ -16,6 +16,10 @@ async def language_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         context.user_data["lang"] = "ru"
         await send_menu(query, "ru")
 
+    elif query.data == "lang_es":
+        context.user_data["lang"] = "es"
+        await send_menu(query, "es")
+
 
 # ---------- MAIN MENU ----------
 async def send_menu(query, lang="en"):
@@ -37,6 +41,25 @@ async def send_menu(query, lang="en"):
             "✔ Имя и номер бесплатно\n"
             "✔ Доставка по всему миру 🌍\n\n"
             "Выберите раздел:"
+        )
+
+    elif lang == "es":
+
+        keyboard = [
+            [InlineKeyboardButton("📦 Catálogo", callback_data="catalog")],
+            [InlineKeyboardButton("💰 Precios", callback_data="prices")],
+            [InlineKeyboardButton("🛒 Cómo comprar", callback_data="how_to_buy")],
+            [InlineKeyboardButton("📞 Contacto", callback_data="contacts")]
+        ]
+
+        text = (
+            "⚽ *FOOTSHOP*\n"
+            "━━━━━━━━━━━━━━\n"
+            "Tienda de camisetas de fútbol\n\n"
+            "✔ Alta calidad\n"
+            "✔ Nombre y número GRATIS\n"
+            "✔ Envío mundial 🌍\n\n"
+            "Elige una opción:"
         )
 
     else:
@@ -91,6 +114,21 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "Выберите категорию:"
             )
 
+        elif lang == "es":
+
+            keyboard = [
+                [InlineKeyboardButton("🔥 Nuevas camisetas", callback_data="new_jerseys")],
+                [InlineKeyboardButton("⭐ Camisetas retro", callback_data="retro_jerseys")],
+                [InlineKeyboardButton("⚡ Shorts", callback_data="shorts")],
+                [InlineKeyboardButton("⬅ Volver", callback_data="back_menu")]
+            ]
+
+            text = (
+                "📦 *CATÁLOGO FOOTSHOP*\n"
+                "━━━━━━━━━━━━━━\n"
+                "Elige una categoría:"
+            )
+
         else:
 
             keyboard = [
@@ -132,6 +170,24 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "Player версия — 25$\n\n"
                 "🎁 Имя и номер — БЕСПЛАТНО\n"
                 "       Доставка — БЕСПЛАТНО"
+            )
+
+        elif lang == "es":
+
+            text = (
+                "💰 *PRECIOS*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "👕 *Nuevas camisetas*\n"
+                "Fan versión — 25$\n"
+                "Player versión — 35$\n\n"
+                "⭐ *Camisetas retro*\n"
+                "Fan versión — 30$\n"
+                "Player versión — 40$\n\n"
+                "⚡ *Shorts*\n"
+                "Fan versión — 15$\n"
+                "Player versión — 25$\n\n"
+                "🎁 Nombre y número — GRATIS\n"
+                "       Envío — GRATIS"
             )
 
         else:
@@ -177,6 +233,20 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "• Имя и номер (по желанию)"
             )
 
+        elif lang == "es":
+
+            text = (
+                "🛒 *CÓMO COMPRAR*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "1️⃣ Ve al catálogo\n"
+                "2️⃣ Elige la camiseta\n"
+                "3️⃣ Haz una captura\n"
+                "4️⃣ Envía al vendedor:\n\n"
+                "• Foto\n"
+                "• Talla\n"
+                "• Nombre y número"
+            )
+
         else:
 
             text = (
@@ -212,6 +282,15 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "Telegram продавец: @footshop_support"
             )
 
+        elif lang == "es":
+
+            text = (
+                "📞 *CONTACTO*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "Instagram: @footshop2026\n"
+                "Telegram: @footshop_support"
+            )
+
         else:
 
             text = (
@@ -221,7 +300,7 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "Telegram Seller: @footshop_support"
             )
 
-        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown")
 
 
     elif query.data == "back_menu":
@@ -238,39 +317,36 @@ async def catalog_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == "new_jerseys":
 
-        text = "🔥 *New Jerseys*" if lang == "en" else "🔥 *Новые Джерси*"
-
-        await query.edit_message_text(
-            f"{text}\n\n📂 Open catalog:",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/3517272")],
-                [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
-            ]),
-            parse_mode="Markdown"
-        )
+        if lang == "ru":
+            text = "🔥 *Новые Джерси*"
+        elif lang == "es":
+            text = "🔥 *Nuevas camisetas*"
+        else:
+            text = "🔥 *New Jerseys*"
 
     elif query.data == "retro_jerseys":
 
-        text = "⭐ *Retro Jerseys*" if lang == "en" else "⭐ *Ретро Джерси*"
-
-        await query.edit_message_text(
-            f"{text}\n\n📂 Open catalog:",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/4803333")],
-                [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
-            ]),
-            parse_mode="Markdown"
-        )
+        if lang == "ru":
+            text = "⭐ *Ретро Джерси*"
+        elif lang == "es":
+            text = "⭐ *Camisetas retro*"
+        else:
+            text = "⭐ *Retro Jerseys*"
 
     elif query.data == "shorts":
 
-        text = "⚡ *Football Shorts*" if lang == "en" else "⚡ *Футбольные Шорты*"
+        if lang == "ru":
+            text = "⚡ *Футбольные Шорты*"
+        elif lang == "es":
+            text = "⚡ *Shorts de fútbol*"
+        else:
+            text = "⚡ *Football Shorts*"
 
-        await query.edit_message_text(
-            f"{text}\n\n📂 Open catalog:",
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/5146701")],
-                [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
-            ]),
-            parse_mode="Markdown"
-        )
+    await query.edit_message_text(
+        f"{text}\n\n📂 Open catalog:",
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/3517272")],
+            [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
+        ]),
+        parse_mode="Markdown"
+    )
