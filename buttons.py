@@ -268,7 +268,7 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "contacts":
 
         keyboard = [
-            [InlineKeyboardButton("📸 Instagram", url="https://instagram.com/footshop2026")],
+            [InlineKeyboardButton("📸 Instagram", url="https://instagram.com/footshop._")],
             [InlineKeyboardButton("💬 Telegram Seller", url="https://t.me/footshop_support")],
             [InlineKeyboardButton("⬅ Back", callback_data="back_menu")]
         ]
@@ -278,7 +278,7 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text = (
                 "📞 *КОНТАКТЫ*\n"
                 "━━━━━━━━━━━━━━\n\n"
-                "Instagram: @footshop2026\n"
+                "Instagram: @footshop._\n"
                 "Telegram продавец: @footshop_support"
             )
 
@@ -287,7 +287,7 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text = (
                 "📞 *CONTACTO*\n"
                 "━━━━━━━━━━━━━━\n\n"
-                "Instagram: @footshop2026\n"
+                "Instagram: @footshop._\n"
                 "Telegram: @footshop_support"
             )
 
@@ -296,11 +296,11 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text = (
                 "📞 *CONTACTS*\n"
                 "━━━━━━━━━━━━━━\n\n"
-                "Instagram: @footshop2026\n"
+                "Instagram: @footshop._\n"
                 "Telegram Seller: @footshop_support"
             )
 
-        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown")
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
 
 
     elif query.data == "back_menu":
