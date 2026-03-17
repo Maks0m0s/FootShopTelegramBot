@@ -315,38 +315,53 @@ async def catalog_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     lang = context.user_data.get("lang", "en")
 
-    if query.data == "new_jerseys":
+    # ---------- DATA ----------
+    categories = {
+        "new_jerseys": {
+            "en": "🔥 *New Jerseys*",
+            "ru": "🔥 *Новые Джерси*",
+            "es": "🔥 *Nuevas camisetas*",
+            "url": "https://baocheng3f888.x.yupoo.com/categories/3517272"
+        },
+        "retro_jerseys": {
+            "en": "⭐ *Retro Jerseys*",
+            "ru": "⭐ *Ретро Джерси*",
+            "es": "⭐ *Camisetas retro*",
+            "url": "https://baocheng3f888.x.yupoo.com/categories/4803333"
+        },
+        "shorts": {
+            "en": "⚡ *Football Shorts*",
+            "ru": "⚡ *Футбольные Шорты*",
+            "es": "⚡ *Shorts de fútbol*",
+            "url": "https://baocheng3f888.x.yupoo.com/categories/5146701"
+        }
+    }
 
-        if lang == "ru":
-            text = "🔥 *Новые Джерси*"
-        elif lang == "es":
-            text = "🔥 *Nuevas camisetas*"
-        else:
-            text = "🔥 *New Jerseys*"
+    category = categories.get(query.data)
 
-    elif query.data == "retro_jerseys":
+    if not category:
+        return
 
-        if lang == "ru":
-            text = "⭐ *Ретро Джерси*"
-        elif lang == "es":
-            text = "⭐ *Camisetas retro*"
-        else:
-            text = "⭐ *Retro Jerseys*"
+    text = category.get(lang, category["en"])
+    url = category["url"]
 
-    elif query.data == "shorts":
+    # ---------- BUTTON TEXT ----------
+    if lang == "ru":
+        open_btn = "📂 Открыть каталог"
+        back_btn = "⬅ Назад"
+    elif lang == "es":
+        open_btn = "📂 Abrir catálogo"
+        back_btn = "⬅ Volver"
+    else:
+        open_btn = "📂 Open Catalog"
+        back_btn = "⬅ Back"
 
-        if lang == "ru":
-            text = "⚡ *Футбольные Шорты*"
-        elif lang == "es":
-            text = "⚡ *Shorts de fútbol*"
-        else:
-            text = "⚡ *Football Shorts*"
-
+    # ---------- SEND ----------
     await query.edit_message_text(
-        f"{text}\n\n📂 Open catalog:",
+        f"{text}\n\n📂 {open_btn}:",
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/3517272")],
-            [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
+            [InlineKeyboardButton(open_btn, url=url)],
+            [InlineKeyboardButton(back_btn, callback_data="catalog")]
         ]),
         parse_mode="Markdown"
     )
