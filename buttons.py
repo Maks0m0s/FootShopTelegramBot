@@ -1,154 +1,276 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-import os
 
-from db import new_jerseys, retro_jerseys, shorts
 
-async def start_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# ---------- LANGUAGE SELECT ----------
+async def language_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     query = update.callback_query
     await query.answer()
 
-    if query.data == "shop":
+    if query.data == "lang_en":
+        context.user_data["lang"] = "en"
+        await send_menu(query, "en")
+
+    elif query.data == "lang_ru":
+        context.user_data["lang"] = "ru"
+        await send_menu(query, "ru")
+
+
+# ---------- MAIN MENU ----------
+async def send_menu(query, lang="en"):
+
+    if lang == "ru":
+
         keyboard = [
-            [InlineKeyboardButton("New Jerseys", callback_data="new_jerseys_s")],
-            [InlineKeyboardButton("Retro Jerseys", callback_data="retro_jerseys_s")],
-            [InlineKeyboardButton("Football Shorts", callback_data="shorts_s")],
+            [InlineKeyboardButton("📦 Каталог", callback_data="catalog")],
+            [InlineKeyboardButton("💰 Цены", callback_data="prices")],
+            [InlineKeyboardButton("🛒 Как купить", callback_data="how_to_buy")],
+            [InlineKeyboardButton("📞 Контакты", callback_data="contacts")]
         ]
-        await query.edit_message_text(
-            "\t|\tSHOP\t|\t\nCategories :",
-            reply_markup=InlineKeyboardMarkup(keyboard)
+
+        text = (
+            "⚽ *FOOTSHOP*\n"
+            "━━━━━━━━━━━━━━\n"
+            "Магазин футбольных джерси\n\n"
+            "✔ Высокое качество\n"
+            "✔ Имя и номер бесплатно\n"
+            "✔ Доставка по всему миру 🌍\n\n"
+            "Выберите раздел:"
         )
-    elif query.data == "prices":
+
+    else:
+
         keyboard = [
-            [InlineKeyboardButton("New Jersey Price 💰", callback_data="new_jerseys_p")],
-            [InlineKeyboardButton("Retro Jersey Price 💰", callback_data="retro_jerseys_p")],
-            [InlineKeyboardButton("Shorts Price 💰", callback_data="shorts_p")],
+            [InlineKeyboardButton("📦 Catalog", callback_data="catalog")],
+            [InlineKeyboardButton("💰 Prices", callback_data="prices")],
+            [InlineKeyboardButton("🛒 How To Buy", callback_data="how_to_buy")],
+            [InlineKeyboardButton("📞 Contacts", callback_data="contacts")]
         ]
-        await query.edit_message_text("Choose items category :", reply_markup=InlineKeyboardMarkup(keyboard))
-    elif query.data == "help":
-        await query.edit_message_text("--- Bot Usage Instructions ---\n"
-                                      "\t- /start : after sending this command you get all next functions of the bot :)\n"
-                                      "\t- To contact us, use the next email : footshop15@gmail.com")
-    elif query.data == "about":
-        await query.edit_message_text("About Us :\n")
-        await context.bot.send_message(chat_id=query.message.chat_id, text="We are a company of selling football items managed by Mr.Maks. Our start-up started in September of 2025, and if you are reading this text, we are still working ;)")
+
+        text = (
+            "⚽ *FOOTSHOP*\n"
+            "━━━━━━━━━━━━━━\n"
+            "Premium Football Jerseys Store\n\n"
+            "✔ High Quality Jerseys\n"
+            "✔ Custom Name & Number FREE\n"
+            "✔ Worldwide Shipping 🌍\n\n"
+            "Choose an option below:"
+        )
+
+    await query.edit_message_text(
+        text,
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode="Markdown"
+    )
 
 
-async def prices_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# ---------- MAIN MENU BUTTONS ----------
+async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     query = update.callback_query
     await query.answer()
 
-    chat_id = query.message.chat_id
+    lang = context.user_data.get("lang", "en")
 
-    if query.data == 'new_jerseys_p':
-        if len(new_jerseys) >= 1:
-            prices = []
-            for jersey in new_jerseys:
-                prices.append(jersey['price'])
-            middle_prices = sum(prices) / len(prices)
-            await query.edit_message_text(text=f"New Jersey's Price : {middle_prices}€")
-        else:
-            await query.edit_message_text(text="No jerseys found.")
-    if query.data == 'retro_jerseys_p':
-        if len(retro_jerseys) >= 1:
-            prices = []
-            for jersey in retro_jerseys:
-                prices.append(jersey['price'])
-            middle_prices = sum(prices) / len(prices)
-            await query.edit_message_text(text=f"Retro Jersey's Price : {middle_prices}€")
-        else:
-            await query.edit_message_text(text="No jerseys found.")
-    if query.data == 'shorts_p':
-        if len(shorts) >= 1:
-            prices = []
-            for short in shorts:
-                prices.append(short['price'])
-            middle_prices = sum(prices) / len(prices)
-            await query.edit_message_text(text=f"Football Shorts Price : {middle_prices}€")
-        else:
-            await query.edit_message_text(text="No shorts found.")
+    # ---------- CATALOG ----------
+    if query.data == "catalog":
 
-async def shop_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if lang == "ru":
+
+            keyboard = [
+                [InlineKeyboardButton("🔥 Новые Джерси", callback_data="new_jerseys")],
+                [InlineKeyboardButton("⭐ Ретро Джерси", callback_data="retro_jerseys")],
+                [InlineKeyboardButton("⚡ Шорты", callback_data="shorts")],
+                [InlineKeyboardButton("⬅ Назад", callback_data="back_menu")]
+            ]
+
+            text = (
+                "📦 *КАТАЛОГ FOOTSHOP*\n"
+                "━━━━━━━━━━━━━━\n"
+                "Выберите категорию:"
+            )
+
+        else:
+
+            keyboard = [
+                [InlineKeyboardButton("🔥 New Jerseys", callback_data="new_jerseys")],
+                [InlineKeyboardButton("⭐ Retro Jerseys", callback_data="retro_jerseys")],
+                [InlineKeyboardButton("⚡ Shorts", callback_data="shorts")],
+                [InlineKeyboardButton("⬅ Back", callback_data="back_menu")]
+            ]
+
+            text = (
+                "📦 *FOOTSHOP CATALOG*\n"
+                "━━━━━━━━━━━━━━\n"
+                "Choose a category:"
+            )
+
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown")
+
+
+    # ---------- PRICES ----------
+    elif query.data == "prices":
+
+        keyboard = [
+            [InlineKeyboardButton("⬅ Back", callback_data="back_menu")]
+        ]
+
+        if lang == "ru":
+
+            text = (
+                "💰 *ЦЕНЫ*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "👕 *Новые Джерси*\n"
+                "Fan версия — 25$\n"
+                "Player версия — 35$\n\n"
+                "⭐ *Ретро Джерси*\n"
+                "Fan версия — 30$\n"
+                "Player версия — 40$\n\n"
+                "⚡ *Шорты*\n"
+                "Fan версия — 15$\n"
+                "Player версия — 25$\n\n"
+                "🎁 Имя и номер — БЕСПЛАТНО\n"
+                "       Доставка — БЕСПЛАТНО"
+            )
+
+        else:
+
+            text = (
+                "💰 *PRICES*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "👕 *New Jerseys*\n"
+                "Fan Version — 25$\n"
+                "Player Version — 35$\n\n"
+                "⭐ *Retro Jerseys*\n"
+                "Fan Version — 30$\n"
+                "Player Version — 40$\n\n"
+                "⚡ *Shorts*\n"
+                "Fan Version — 15$\n"
+                "Player Version — 25$\n\n"
+                "🎁 Custom name & number — FREE\n"
+                "       Shipping — FREE"
+            )
+
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown")
+
+
+    # ---------- HOW TO BUY ----------
+    elif query.data == "how_to_buy":
+
+        keyboard = [
+            [InlineKeyboardButton("📦 Catalog", callback_data="catalog")],
+            [InlineKeyboardButton("⬅ Back", callback_data="back_menu")]
+        ]
+
+        if lang == "ru":
+
+            text = (
+                "🛒 *КАК КУПИТЬ*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "1️⃣ Перейдите в каталог\n"
+                "2️⃣ Выберите джерси\n"
+                "3️⃣ Сделайте скриншот\n"
+                "4️⃣ Отправьте продавцу:\n\n"
+                "• Фото\n"
+                "• Размер\n"
+                "• Имя и номер (по желанию)"
+            )
+
+        else:
+
+            text = (
+                "🛒 *HOW TO BUY*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "1️⃣ Go to catalog\n"
+                "2️⃣ Choose the jersey\n"
+                "3️⃣ Take screenshot\n"
+                "4️⃣ Send seller:\n\n"
+                "• Photo\n"
+                "• Size\n"
+                "• Custom name & number"
+            )
+
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="Markdown")
+
+
+    # ---------- CONTACTS ----------
+    elif query.data == "contacts":
+
+        keyboard = [
+            [InlineKeyboardButton("📸 Instagram", url="https://instagram.com/footshop2026")],
+            [InlineKeyboardButton("💬 Telegram Seller", url="https://t.me/footshop_support")],
+            [InlineKeyboardButton("⬅ Back", callback_data="back_menu")]
+        ]
+
+        if lang == "ru":
+
+            text = (
+                "📞 *КОНТАКТЫ*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "Instagram: @footshop2026\n"
+                "Telegram продавец: @footshop_support"
+            )
+
+        else:
+
+            text = (
+                "📞 *CONTACTS*\n"
+                "━━━━━━━━━━━━━━\n\n"
+                "Instagram: @footshop2026\n"
+                "Telegram Seller: @footshop_support"
+            )
+
+        await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
+
+
+    elif query.data == "back_menu":
+        await send_menu(query, lang)
+
+
+# ---------- CATALOG ----------
+async def catalog_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     query = update.callback_query
     await query.answer()
 
-    chat_id = query.message.chat_id
+    lang = context.user_data.get("lang", "en")
 
-    if query.data == "new_jerseys_s":
-        if len(new_jerseys) >= 1:
-            await query.edit_message_text("New Jerseys :")
-            for i, jersey in enumerate(new_jerseys):
-                await context.bot.send_message(
-                    chat_id=chat_id,
-                    text=f"{i+1}. {jersey['club']} | {jersey['year']}"
-                )
+    if query.data == "new_jerseys":
 
-                photo_path = jersey['photo_url']
-                if os.path.exists(photo_path):  # ✅ Use local file if available
-                    with open(photo_path, "rb") as img:
-                        details = ""
-                        if len(jersey['details']) >= 1:
-                            for detail in jersey['details']:
-                                details += f'\n\t· {detail}'
-                            await context.bot.send_photo(chat_id=chat_id, photo=img,
-                                                         caption=f"✅ Details : {details}\nBrand : {jersey['brand']}\n💰 Price : {jersey['price']}€\n"
-                                                                 f"🔗 <a href='{jersey['url']}'>Click here to view</a>", parse_mode="HTML")
-                        else:
-                            await context.bot.send_photo(chat_id=chat_id, photo=img,
-                                                         caption=f"Brand : {jersey['brand']}\n💰 Price: {jersey['price']}€\n🔗 <a href='{jersey['url']}'>Click here to view</a>", parse_mode="HTML")
-                else:
-                    await context.bot.send_message(chat_id=chat_id, text="⚠️ Image not found.")
-        else:
-            await context.bot.send_message(chat_id=chat_id, text="No jerseys found.")
+        text = "🔥 *New Jerseys*" if lang == "en" else "🔥 *Новые Джерси*"
 
-    elif query.data == "retro_jerseys_s":
-        if len(retro_jerseys) >= 1:
-            await query.edit_message_text("Retro Jerseys :")
-            for i, r_jersey in enumerate(retro_jerseys):
-                await context.bot.send_message(
-                    chat_id=chat_id,
-                    text=f"{i + 1}. {r_jersey['club']} | {r_jersey['year']}"
-                )
+        await query.edit_message_text(
+            f"{text}\n\n📂 Open catalog:",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/3517272")],
+                [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
+            ]),
+            parse_mode="Markdown"
+        )
 
-                photo_path = r_jersey['photo_url']
-                if os.path.exists(photo_path):  # ✅ Use local file if available
-                    with open(photo_path, "rb") as img:
-                        details = ""
-                        if len(r_jersey['details']) >= 1:
-                            for detail in r_jersey['details']:
-                                details += f'\n\t· {detail}'
-                            await context.bot.send_photo(chat_id=chat_id, photo=img,
-                                                         caption=f"✅ Details : {details}\nBrand : {r_jersey['brand']}\n💰 Price: {r_jersey['price']}€\n🔗 <a href='{r_jersey['url']}'>Click here to view</a>", parse_mode="HTML")
-                        else:
-                            await context.bot.send_photo(chat_id=chat_id, photo=img,
-                                                         caption=f"Brand : {r_jersey['brand']}\n💰 Price: {r_jersey['price']}€\n🔗 <a href='{r_jersey['url']}'>Click here to view</a>", parse_mode="HTML")
-                else:
-                    await context.bot.send_message(chat_id=chat_id, text="⚠️ Image not found.")
-        else:
-            await context.bot.send_message(chat_id=chat_id, text="No jerseys found.")
+    elif query.data == "retro_jerseys":
 
-    elif query.data == "shorts_s":
-        if len(shorts) >= 1:
-            await query.edit_message_text("Football Shorts :")
-            for i, short in enumerate(shorts):
-                await context.bot.send_message(
-                    chat_id=chat_id,
-                    text=f"{i + 1}. {short['club']} | {short['year']}"
-                )
+        text = "⭐ *Retro Jerseys*" if lang == "en" else "⭐ *Ретро Джерси*"
 
-                photo_path = short['photo_url']
-                if os.path.exists(photo_path):  # ✅ Use local file if available
-                    with open(photo_path, "rb") as img:
-                        details = ""
-                        if len(short['details']) >= 1:
-                            for detail in short['details']:
-                                details += f'\n\t· {detail}'
-                            await context.bot.send_photo(chat_id=chat_id, photo=img,
-                                                         caption=f"✅ Details : {details}\nBrand : {short['brand']}\n💰 Price: {short['price']}€\n🔗 <a href='{short['url']}'>Click here to view</a>", parse_mode="HTML")
-                        else:
-                            await context.bot.send_photo(chat_id=chat_id, photo=img,
-                                                         caption=f"Brand : {short['brand']}\n💰 Price: {short['price']}€\n🔗 <a href='{short['url']}'>Click here to view</a>", parse_mode="HTML")
-                else:
-                    await context.bot.send_message(chat_id=chat_id, text="⚠️ Image not found.")
-        else:
-            await context.bot.send_message(chat_id=chat_id, text="No shorts found.")
+        await query.edit_message_text(
+            f"{text}\n\n📂 Open catalog:",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/4803333")],
+                [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
+            ]),
+            parse_mode="Markdown"
+        )
+
+    elif query.data == "shorts":
+
+        text = "⚡ *Football Shorts*" if lang == "en" else "⚡ *Футбольные Шорты*"
+
+        await query.edit_message_text(
+            f"{text}\n\n📂 Open catalog:",
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("📂 Open Catalog", url="https://baocheng3f888.x.yupoo.com/categories/5146701")],
+                [InlineKeyboardButton("⬅ Back", callback_data="catalog")]
+            ]),
+            parse_mode="Markdown"
+        )

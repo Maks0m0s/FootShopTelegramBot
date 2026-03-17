@@ -1,16 +1,20 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from commands import start
-from buttons import start_button, shop_button, prices_button
+from buttons import language_button, menu_button, catalog_button
 from env import TOKEN
 
 app = ApplicationBuilder().token(TOKEN).build()
 
-# Command handler
+# start command
 app.add_handler(CommandHandler("start", start))
 
-# Callback query handlers with patterns
-app.add_handler(CallbackQueryHandler(start_button, pattern="^(shop|prices|help|about)$"))
-app.add_handler(CallbackQueryHandler(shop_button, pattern="^(new_jerseys_s|retro_jerseys_s|shorts_s)$"))
-app.add_handler(CallbackQueryHandler(prices_button, pattern="^(new_jerseys_p|retro_jerseys_p|shorts_p)$"))
+# language selector
+app.add_handler(CallbackQueryHandler(language_button, pattern="^(lang_en|lang_ru)$"))
+
+# main menu buttons
+app.add_handler(CallbackQueryHandler(menu_button, pattern="^(catalog|prices|how_to_buy|contacts|back_menu)$"))
+
+# catalog categories
+app.add_handler(CallbackQueryHandler(catalog_button, pattern="^(new_jerseys|retro_jerseys|shorts)$"))
 
 app.run_polling()
