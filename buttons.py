@@ -366,7 +366,7 @@ async def catalog_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "en": "⚡ *Football Shorts*",
             "ru": "⚡ *Футбольные Шорты*",
             "es": "⚡ *Shorts de fútbol*",
-            "url": "https://ty-guoji2.x.yupoo.com/categories/5146701"
+            "url": "https://ty-guoji2.x.yupoo.com/categories/4630307"
         }
     }
 
