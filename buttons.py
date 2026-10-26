@@ -104,6 +104,9 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             keyboard = [
                 [InlineKeyboardButton("🔥 Новые Джерси", callback_data="new_jerseys")],
                 [InlineKeyboardButton("⭐ Ретро Джерси", callback_data="retro_jerseys")],
+                [InlineKeyboardButton("👕 Поло", callback_data="polos")],
+                [InlineKeyboardButton("👕 Футболки", callback_data="tshirts")],
+                [InlineKeyboardButton("🧥 Куртки", callback_data="jackets")],
                 [InlineKeyboardButton("⚡ Шорты", callback_data="shorts")],
                 [InlineKeyboardButton("⬅ Назад", callback_data="back_menu")]
             ]
@@ -119,6 +122,9 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             keyboard = [
                 [InlineKeyboardButton("🔥 Nuevas camisetas", callback_data="new_jerseys")],
                 [InlineKeyboardButton("⭐ Camisetas retro", callback_data="retro_jerseys")],
+                [InlineKeyboardButton("👕 Polos", callback_data="polos")],
+                [InlineKeyboardButton("👕 Camisetas", callback_data="tshirts")],
+                [InlineKeyboardButton("🧥 Chubasquero", callback_data="jackets")],
                 [InlineKeyboardButton("⚡ Shorts", callback_data="shorts")],
                 [InlineKeyboardButton("⬅ Volver", callback_data="back_menu")]
             ]
@@ -134,6 +140,9 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             keyboard = [
                 [InlineKeyboardButton("🔥 New Jerseys", callback_data="new_jerseys")],
                 [InlineKeyboardButton("⭐ Retro Jerseys", callback_data="retro_jerseys")],
+                [InlineKeyboardButton("👕 Polos", callback_data="polos")],
+                [InlineKeyboardButton("👕 T-Shirts", callback_data="tshirts")],
+                [InlineKeyboardButton("🧥 Jackets", callback_data="jackets")],
                 [InlineKeyboardButton("⚡ Shorts", callback_data="shorts")],
                 [InlineKeyboardButton("⬅ Back", callback_data="back_menu")]
             ]
@@ -168,6 +177,8 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "⚡ *Шорты*\n"
                 "Fan версия — 15$\n"
                 "Player версия — 25$\n\n"
+                "👕 *Поло, Футболки, Куртки*\n"
+                "Цена — по запросу\n\n"
                 "🎁 Имя и номер — БЕСПЛАТНО\n"
                 "       Доставка — БЕСПЛАТНО"
             )
@@ -186,6 +197,8 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "⚡ *Shorts*\n"
                 "Fan versión — 15$\n"
                 "Player versión — 25$\n\n"
+                "👕 *Polos, Camisetas, Chubasquero, Shorts*\n"
+                "Precio — a consulta\n\n"
                 "🎁 Nombre y número — GRATIS\n"
                 "       Envío — GRATIS"
             )
@@ -204,6 +217,8 @@ async def menu_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "⚡ *Shorts*\n"
                 "Fan Version — 15$\n"
                 "Player Version — 25$\n\n"
+                "👕 *Polos, T-Shirts, Jackets, Shorts*\n"
+                "Price — on request\n\n"
                 "🎁 Custom name & number — FREE\n"
                 "       Shipping — FREE"
             )
@@ -329,11 +344,29 @@ async def catalog_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "es": "⭐ *Camisetas retro*",
             "url": "https://baocheng3f888.x.yupoo.com/categories/4803333"
         },
+        "polos": {
+            "en": "👕 *Polos*",
+            "ru": "👕 *Поло*",
+            "es": "👕 *Polos*",
+            "url": "https://ty-guoji2.x.yupoo.com/categories/5209917"
+        },
+        "tshirts": {
+            "en": "👕 *T-Shirts*",
+            "ru": "👕 *Футболки*",
+            "es": "👕 *Camisetas*",
+            "url": "https://ty-guoji2.x.yupoo.com/categories/5169270"
+        },
+        "jackets": {
+            "en": "🧥 *Jackets*",
+            "ru": "🧥 *Куртки*",
+            "es": "🧥 *Chubasquero*",
+            "url": "https://ty-guoji2.x.yupoo.com/categories/5006512"
+        },
         "shorts": {
             "en": "⚡ *Football Shorts*",
             "ru": "⚡ *Футбольные Шорты*",
             "es": "⚡ *Shorts de fútbol*",
-            "url": "https://baocheng3f888.x.yupoo.com/categories/5146701"
+            "url": "https://ty-guoji2.x.yupoo.com/categories/5146701"
         }
     }
 

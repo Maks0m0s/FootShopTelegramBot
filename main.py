@@ -15,6 +15,6 @@ app.add_handler(CallbackQueryHandler(language_button, pattern="^(lang_en|lang_ru
 app.add_handler(CallbackQueryHandler(menu_button, pattern="^(catalog|prices|how_to_buy|contacts|back_menu)$"))
 
 # catalog categories
-app.add_handler(CallbackQueryHandler(catalog_button, pattern="^(new_jerseys|retro_jerseys|shorts)$"))
+app.add_handler(CallbackQueryHandler(catalog_button, pattern="^(new_jerseys|retro_jerseys|polos|tshirts|jackets|shorts)$"))
 
 app.run_polling()
